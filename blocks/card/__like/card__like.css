@@ -1,0 +1,8 @@
+.card__like {
+  margin-right: 30px;
+}
+
+.card__like:hover {
+  cursor: pointer;
+  opacity: .6;
+}

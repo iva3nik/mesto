@@ -1,0 +1,26 @@
+.profile__button-edit-name {
+  height: 24px;
+  width: 24px;
+  border: 1px solid #FFF;
+  background-color: black;
+  box-sizing: border-box;
+  background-image:
+    url(../../../images/pen.svg);
+  background-position: center;
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  margin-left: 18px;
+}
+
+.profile__button-edit-name:hover {
+  cursor: pointer;
+  opacity: .6;
+}
+
+@media screen and (max-width:1000px) {
+  .profile__button-edit-name {
+    height: 18px;
+    width: 18px;
+    background-size: 7.5px 7.5px;
+  }
+}

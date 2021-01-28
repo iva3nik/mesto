@@ -1,0 +1,29 @@
+.popup__close-form {
+  width: 40px;
+  height: 40px;
+  background-image:
+    url(./images/close_icon.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  background-color: transparent;
+  position: fixed;
+  top: -40px;
+  right: -40px;
+  border: none;
+}
+
+.popup__close-form:hover {
+  cursor: pointer;
+  opacity: .6;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__close-form {
+    top: -26px;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    background-size: 26px 26px;
+  }
+}
