@@ -28,13 +28,17 @@
           <div class="profile__info">
             <div class="profile__row">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
-              <button class="profile__button-edit-name" type="button">
+              <button
+                class="profile__button-edit-name"
+                type="button"
+                aria-label="edit-name"
+              >
               </button>
             </div>
             <p class="profile__text">Исследователь океана</p>
           </div>
         </div>
-        <button class="profile__button" type="button">
+        <button class="profile__button" type="button" aria-label="add-card">
         </button>
       </section>
 
@@ -47,7 +51,8 @@
           >
           <div class="card__info">
             <h2 class="card__title">Карачаевск</h2>
-            <button class="card__like" type="button"></button>
+            <button class="card__like" type="button" aria-label="like-heart">
+            </button>
           </div>
         </div>
         <div class="card">
@@ -58,7 +63,8 @@
           >
           <div class="card__info">
             <h2 class="card__title">Гора Эльбрус</h2>
-            <button class="card__like" type="button"></button>
+            <button class="card__like" type="button" aria-label="like-heart">
+            </button>
           </div>
         </div>
         <div class="card">
@@ -69,7 +75,8 @@
           >
           <div class="card__info">
             <h2 class="card__title">Домбай</h2>
-            <button class="card__like" type="button"></button>
+            <button class="card__like" type="button" aria-label="like-heart">
+            </button>
           </div>
         </div>
         <div class="card">
@@ -80,7 +87,8 @@
           >
           <div class="card__info">
             <h2 class="card__title">Камчатка</h2>
-            <button class="card__like" type="button"></button>
+            <button class="card__like" type="button" aria-label="like-heart">
+            </button>
           </div>
         </div>
         <div class="card">
@@ -91,7 +99,8 @@
           >
           <div class="card__info">
             <h2 class="card__title">Сахалин</h2>
-            <button class="card__like" type="button"></button>
+            <button class="card__like" type="button" aria-label="like-heart">
+            </button>
           </div>
         </div>
         <div class="card">
@@ -102,7 +111,8 @@
           >
           <div class="card__info">
             <h2 class="card__title">Сочи</h2>
-            <button class="card__like" type="button"></button>
+            <button class="card__like" type="button" aria-label="like-heart">
+            </button>
           </div>
         </div>
       </section>
@@ -121,16 +131,21 @@
             class="popup__item-profile popup__item-profile_input_name"
             value="Жак-Ив Кусто"
             name="name-profile"
+            placeholder="Имя профиля"
+            required
           >
           <input
             type="text"
             class="popup__item-profile popup__item-profile_input_job"
             value="Исследователь океана"
             name="about-profile"
+            placeholder="О профиле"
+            required
           >
           <button class="popup__save" type="submit">Сохранить</button>
         </form>
-        <button class="popup__close-form" type="button"></button>
+        <button class="popup__close-form" type="button" aria-label="close-form">
+        </button>
       </div>
     </div>
 

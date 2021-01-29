@@ -10,6 +10,8 @@
   background-size: 10px 10px;
   background-repeat: no-repeat;
   margin-left: 18px;
+  opacity: 1;
+  transition: .3s linear;
 }
 
 .profile__button-edit-name:hover {
@@ -22,5 +24,14 @@
     height: 18px;
     width: 18px;
     background-size: 7.5px 7.5px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .profile__button-edit-name {
+    position: absolute;
+    right: -28px;
+    top: 25%;
+    margin-left: 0;
   }
 }

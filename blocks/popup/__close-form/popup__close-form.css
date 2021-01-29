@@ -2,7 +2,7 @@
   width: 40px;
   height: 40px;
   background-image:
-    url(../../../images/close_icon.svg);
+    url(../../../images/сlose_icon.svg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 40px 40px;
@@ -11,6 +11,11 @@
   top: -40px;
   right: -40px;
   border: none;
+  opacity: 1;
+  transition: .3s linear;
+  padding: 0;
+  transform: rotate(-45deg);
+
 }
 
 .popup__close-form:hover {
@@ -20,7 +25,7 @@
 
 @media screen and (max-width: 600px) {
   .popup__close-form {
-    top: -26px;
+    top: -39px;
     right: 0;
     width: 26px;
     height: 26px;
