@@ -26,9 +26,6 @@ function formSubmitHandler (evt) {
                           // Так мы можем определить свою логику отправки.
                           // О том, как это делать, расскажем позже.
 
-    // Получите значение полей jobInput и nameInput из свойства value
-  jobInput.value;
-  nameInput.value;
     // Выберите элементы, куда должны быть вставлены значения полей
   let profileName = document.querySelector('.profile__name');
   let profileText = document.querySelector('.profile__text');
