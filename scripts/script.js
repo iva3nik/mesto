@@ -16,8 +16,8 @@ buttonCloseForm.addEventListener('click', closeForm);
 // Находим форму в DOM
 let formElement = popup.querySelector('.popup__edit-profile');
 // Находим поля формы в DOM
-let nameInput = formElement.querySelector('.popup__name-input');
-let jobInput = formElement.querySelector('.popup__job-input');
+let nameInput = formElement.querySelector('.popup__item-profile_input_name');
+let jobInput = formElement.querySelector('.popup__item-profile_input_job');
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
