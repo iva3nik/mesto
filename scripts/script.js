@@ -1,13 +1,18 @@
-const popup = document.querySelector('.popup');
+const popups = document.querySelector('.popups');
+const popupEditProfile = popups.querySelector('.popup_edit-profile');
 const buttonEditName = document.querySelector('.profile__button-edit-name');
-const buttonCloseForm = popup.querySelector('.popup__close-form');
+const buttonCloseForm = popupEditProfile.querySelector('.popup__close-form');
 
-const formElement = popup.querySelector('.popup__edit-profile');
+const formElement = popupEditProfile.querySelector('.popup__edit-profile');
 const nameInput = formElement.querySelector('.popup__item-profile_input_name');
 const jobInput = formElement.querySelector('.popup__item-profile_input_job');
 
 const profileName = document.querySelector('.profile__name');
 const profileText = document.querySelector('.profile__text');
+
+const popupAddCard = popups.querySelector('.popup_add-card');
+const buttonAddCard = document.querySelector('.profile__button');
+const buttonCloseAddCard = popupAddCard.querySelector('.popup__close-form');
 
 const initialCards = [
   {
@@ -61,19 +66,28 @@ addCardsDefault();
 
 
 function openEditProfile() {
-  popup.classList.add('popup_opened');
+  popupEditProfile.classList.add('popup_opened');
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
 }
 
 function closeForm() {
-  popup.classList.remove('popup_opened');
+  popupEditProfile.classList.remove('popup_opened');
 }
 
 buttonEditName.addEventListener('click', openEditProfile);
 buttonCloseForm.addEventListener('click', closeForm);
 
+function openAddCard () {
+  popupAddCard.classList.add('popup_opened');
+}
 
+function closeAddCard () {
+  popupAddCard.classList.remove('popup_opened');
+}
+
+buttonAddCard.addEventListener('click', openAddCard);
+buttonCloseAddCard.addEventListener('click', closeAddCard);
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
 function formSubmitHandler (evt) {
