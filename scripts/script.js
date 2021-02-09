@@ -40,9 +40,8 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-//находим секцию под карточки
+
 const cardsProfile = document.querySelector('.elements');
-//находим элемент template и получаем содержимое
 const cardTemplate = document.querySelector('#card').content;
 
 function addCard(name, link) {
