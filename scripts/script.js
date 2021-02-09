@@ -52,6 +52,13 @@ function addCard(name, link) {
   cardItem.querySelector('.card__title').textContent = name;
   cardItem.querySelector('.card__element').src = link;
 
+  const buttonLike = cardItem.querySelector('.card__like');
+
+  buttonLike.addEventListener('click', function(evt) {
+  const eventTarget = evt.target;
+  eventTarget.classList.toggle('card__like_active');
+});
+
   cardsProfile.append(cardItem);
 }
 
@@ -64,26 +71,27 @@ function addCardsDefault() {
 addCardsDefault();
 
 
+
 function openEditProfile() {
   popupEditProfile.classList.add('popup_opened');
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
-}
+};
 
 function closeForm() {
   popupEditProfile.classList.remove('popup_opened');
-}
+};
 
 buttonEditName.addEventListener('click', openEditProfile);
 buttonCloseForm.addEventListener('click', closeForm);
 
 function openAddCard () {
   popupAddCard.classList.add('popup_opened');
-}
+};
 
 function closeAddCard () {
   popupAddCard.classList.remove('popup_opened');
-}
+};
 
 buttonAddCard.addEventListener('click', openAddCard);
 buttonCloseAddCard.addEventListener('click', closeAddCard);
@@ -96,7 +104,7 @@ function formSubmitHandler (evt) {
   profileText.textContent = jobInput.value;
 
   closeForm();
-}
+};
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
