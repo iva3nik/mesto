@@ -17,6 +17,9 @@ const placeInput = popupAddCard.querySelector('.popup__item-profile_input_name')
 const linkPlace = popupAddCard.querySelector('.popup__item-profile_input_job');
 const formElementCard = popupAddCard.querySelector('.popup__edit-profile');
 
+const cardsProfile = document.querySelector('.elements');
+const cardTemplate = document.querySelector('#card').content;
+
 const initialCards = [
   {
     name: 'Карачаевск',
@@ -44,9 +47,6 @@ const initialCards = [
   }
 ];
 
-const cardsProfile = document.querySelector('.elements');
-const cardTemplate = document.querySelector('#card').content;
-
 function addCard(name, link) {
 
   const cardItem = cardTemplate.querySelector('.card').cloneNode(true);
@@ -58,9 +58,16 @@ function addCard(name, link) {
   const buttonLike = cardItem.querySelector('.card__like');
 
   buttonLike.addEventListener('click', function(evt) {
-  const eventTarget = evt.target;
-  eventTarget.classList.toggle('card__like_active');
-});
+    const eventTarget = evt.target;
+    eventTarget.classList.toggle('card__like_active');
+  });
+
+  const buttonDelete = cardItem.querySelector('.card__trash');
+  buttonDelete.addEventListener('click', function(evt) {
+    const eTarget = evt.target;
+    const itemTarget = eTarget.closest('.card');
+    itemTarget.remove();
+  });
 
   cardsProfile.prepend(cardItem);
 }
@@ -119,8 +126,7 @@ function formSubmitHandlerCard (evt) {
   closeAddCard();
 };
 
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
+// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', formSubmitHandler);
 formElementCard.addEventListener('submit', formSubmitHandlerCard);
 
