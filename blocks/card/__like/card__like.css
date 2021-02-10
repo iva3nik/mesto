@@ -6,7 +6,7 @@
   background-color: white;
   background-image:
     url(../../../images/heart.svg);
-    border: none;
+  border: none;
   opacity: 1;
   transition: .3s linear;
 }
