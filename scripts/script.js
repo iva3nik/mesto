@@ -13,6 +13,9 @@ const profileText = document.querySelector('.profile__text');
 const popupAddCard = popups.querySelector('.popup_add-card');
 const buttonAddCard = document.querySelector('.profile__button');
 const buttonCloseAddCard = popupAddCard.querySelector('.popup__close-form');
+const placeInput = popupAddCard.querySelector('.popup__item-profile_input_name');
+const linkPlace = popupAddCard.querySelector('.popup__item-profile_input_job');
+const formElementCard = popupAddCard.querySelector('.popup__edit-profile');
 
 const initialCards = [
   {
@@ -59,7 +62,7 @@ function addCard(name, link) {
   eventTarget.classList.toggle('card__like_active');
 });
 
-  cardsProfile.append(cardItem);
+  cardsProfile.prepend(cardItem);
 }
 
 function addCardsDefault() {
@@ -70,7 +73,11 @@ function addCardsDefault() {
 
 addCardsDefault();
 
-
+function addCardNew () {
+  addCard(placeInput.value, linkPlace.value);
+  placeInput.value = '';
+  linkPlace.value = '';
+}
 
 function openEditProfile() {
   popupEditProfile.classList.add('popup_opened');
@@ -106,8 +113,14 @@ function formSubmitHandler (evt) {
   closeForm();
 };
 
+function formSubmitHandlerCard (evt) {
+  evt.preventDefault();
+  addCardNew();
+  closeAddCard();
+};
+
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', formSubmitHandler);
-
+formElementCard.addEventListener('submit', formSubmitHandlerCard);
 
