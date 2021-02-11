@@ -1,0 +1,5 @@
+.popup-view__window {
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+}
