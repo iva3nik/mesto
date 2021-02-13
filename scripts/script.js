@@ -62,18 +62,18 @@ function addCard(name, link) {
     evt.target.closest('.card').remove();
   });
 
-  const popupView = popups.querySelector('.popup-view');
-  const popupViewClose = popupView.querySelector('.popup-view__close');
+  const popupView = popups.querySelector('.popup_view');
+  const popupViewClose = popupView.querySelector('.popup__close-from');
 
   cardItem.querySelector('.card__element').addEventListener('click', function() {
-    popupView.classList.add('popup-view_opened');
+    popupView.classList.add('.popup_opened');
     popupView.querySelector('.popup-view__image').src = link;
     popupView.querySelector('.popup-view__about').textContent = name;
     popupView.querySelector('.popup-view__image').alt = name;
   });
 
   popupViewClose.addEventListener('click', function() {
-    popupView.classList.remove('popup-view_opened');
+    popupView.classList.remove('popup_opened');
   });
 
   cardsProfile.prepend(cardItem);
