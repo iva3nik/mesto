@@ -48,7 +48,7 @@ function render() {
   cardsProfile.append(...cardsArray);
 };
 
-function getCard (item) {
+function getCard(item) {
   const cardItem = cardTemplate.querySelector('.card').cloneNode(true);
 
   cardItem.querySelector('.card__element').src = item.link;
@@ -84,7 +84,7 @@ function getCard (item) {
   return cardItem;
 };
 
-function addNewCard () {
+function addNewCard() {
   const newCard = getCard({name: placeInput.value, link: linkPlace.value});
   cardsProfile.prepend(newCard);
   placeInput.value = '';
@@ -93,15 +93,33 @@ function addNewCard () {
 
 render();
 
-function openPopup (popupElement) {
+function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEscape);
 };
 
-function closePopup (popupElement) {
+function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEscape);
 };
 
-buttonEditName.addEventListener('click', function () {
+function closePopupEscape(evt) {
+  const popupOpen = document.querySelector('.popup_opened');
+  if (evt.key === 'Escape') {
+    closePopup(popupOpen);
+  }
+};
+
+const arrayPopups = Array.from(document.querySelectorAll('.popup'));
+arrayPopups.forEach((popup) => {
+  popup.addEventListener('click', function(evt) {
+    if (evt.target == evt.currentTarget) {
+      closePopup(popup);
+    };
+  });
+});
+
+buttonEditName.addEventListener('click', function() {
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
@@ -120,7 +138,7 @@ buttonCloseAddCard.addEventListener('click', function() {
 });
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function formSubmitHandler (evt) {
+function formSubmitHandler(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
 
   profileName.textContent = nameInput.value;
@@ -129,7 +147,7 @@ function formSubmitHandler (evt) {
   closePopup(popupEditProfile);
 };
 
-function formSubmitHandlerCard (evt) {
+function formSubmitHandlerCard(evt) {
   evt.preventDefault();
   addNewCard();
   closePopup(popupAddCard);
@@ -138,63 +156,3 @@ function formSubmitHandlerCard (evt) {
 // Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', formSubmitHandler);
 formElementCard.addEventListener('submit', formSubmitHandlerCard);
-
-function showInputError (formElement, inputElement, errorMessage) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__item-profile_type_error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__input-error_active');
-};
-
-function hideInputError (formElement, inputElement) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__item-profile_type_error');
-  errorElement.classList.remove('popup__input-error_active');
-  errorElement.textContent = '';
-};
-
-function isValid (formElement, inputElement) {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-};
-
-function setEventListeners (formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__item-profile'));
-  const buttonElement = formElement.querySelector('.popup__save');
-  toggleButtonState(inputList, buttonElement);
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
-    });
-  });
-};
-
-function enableValidation () {
-  const formList = Array.from(popups.querySelectorAll('.popup__edit-profile'));
-  formList.forEach((formElement) => {
-    formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    });
-    setEventListeners(formElement);
-  });
-};
-
-function hasInvalidInput (inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-};
-
-function toggleButtonState (inputList, buttonElement) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__save_inactive');
-  } else {
-    buttonElement.classList.remove('popup__save_inactive');
-  }
-};
-
-enableValidation();
