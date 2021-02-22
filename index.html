@@ -56,23 +56,31 @@
       <div class="popup popup_edit-profile">
         <div class="popup__container popup__container_form">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <form class="popup__edit-profile" name="form-about-profile">
+          <form class="popup__edit-profile" name="form-about-profile" novalidate>
             <input
               type="text"
+              id="name-input"
               class="popup__item-profile popup__item-profile_input_name"
               value="Жак-Ив Кусто"
               name="name-profile"
               placeholder="Имя профиля"
+              minlength="2"
+              maxlength="40"
               required
             >
+            <span class="popup__input-error name-input-error"></span>
             <input
               type="text"
+              id="about-input"
               class="popup__item-profile popup__item-profile_input_job"
               value="Исследователь океана"
               name="about-profile"
               placeholder="О профиле"
+              minlength="2"
+              maxlength="200"
               required
             >
+            <span class="popup__input-error about-input-error"></span>
             <button class="popup__save" type="submit">Сохранить</button>
           </form>
           <button class="popup__close-form" type="button" aria-label="close-form">
@@ -83,23 +91,29 @@
       <div class="popup popup_add-card">
         <div class="popup__container popup__container_form">
           <h2 class="popup__title">Новое место</h2>
-          <form class="popup__edit-profile" name="form-about-profile">
+          <form class="popup__edit-profile" name="form-about-profile" novalidate>
             <input
               type="text"
+              id="name-place-input"
               class="popup__item-profile popup__item-profile_input_name"
               value=""
               name="new-place"
               placeholder="Название"
+              minlength="2"
+              maxlength="30"
               required
             >
+            <span class="popup__input-error name-place-input-error"></span>
             <input
               type="url"
+              id="url-input"
               class="popup__item-profile popup__item-profile_input_job"
               value=""
               name="link-image"
               placeholder="Ссылка на картинку"
               required
             >
+            <span class="popup__input-error url-input-error"></span>
             <button class="popup__save" type="submit">Сохранить</button>
           </form>
           <button class="popup__close-form" type="button" aria-label="close-form">
