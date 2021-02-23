@@ -56,11 +56,13 @@ function toggleButtonState(inputList, buttonElement, validationClass) {
   }
 };
 
-enableValidation({
+const validationClass = {
   formSelector: '.popup__edit-profile',
   inputSelector: '.popup__item-profile',
   submitButtonSelector: '.popup__save',
   inactiveButtonClass: 'popup__save_inactive',
   inputErrorClass: 'popup__item-profile_type_error',
   errorClass: 'popup__input-error_active'
-});
+};
+
+enableValidation(validationClass);

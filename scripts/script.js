@@ -95,12 +95,20 @@ render();
 
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
+  const inputList = Array.from(popupElement.querySelectorAll(validationClass.inputSelector));
+  const buttonElement = popupElement.querySelector(validationClass.submitButtonSelector);
+  inputList.forEach((inputElement) => {
+    hideInputError(popupElement, inputElement, validationClass);
+    toggleButtonState(inputList, buttonElement, validationClass);
+  });
   document.addEventListener('keydown', closePopupEscape);
 };
 
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEscape);
+  placeInput.value = '';
+  linkPlace.value = '';
 };
 
 function closePopupEscape(evt) {
