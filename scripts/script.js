@@ -146,7 +146,7 @@ buttonCloseAddCard.addEventListener('click', function() {
 });
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function formSubmitHandler(evt) {
+function handleFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
 
   profileName.textContent = nameInput.value;
@@ -155,12 +155,12 @@ function formSubmitHandler(evt) {
   closePopup(popupEditProfile);
 };
 
-function formSubmitHandlerCard(evt) {
+function handleCardFormSubmit(evt) {
   evt.preventDefault();
   addNewCard();
   closePopup(popupAddCard);
 };
 
 // Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', formSubmitHandler);
-formElementCard.addEventListener('submit', formSubmitHandlerCard);
+formElement.addEventListener('submit', handleFormSubmit);
+formElementCard.addEventListener('submit', handleCardFormSubmit);
