@@ -97,12 +97,6 @@ render();
 
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
-  const inputList = Array.from(popupElement.querySelectorAll(validationClass.inputSelector));
-  const buttonElement = popupElement.querySelector(validationClass.submitButtonSelector);
-  inputList.forEach((inputElement) => {
-    hideInputError(popupElement, inputElement, validationClass);
-    toggleButtonState(inputList, buttonElement, validationClass);
-  });
   document.addEventListener('keydown', closePopupEscape);
 };
 
@@ -127,8 +121,18 @@ arrayPopups.forEach((popup) => {
   });
 });
 
+function clearValidation (popupElement) {
+  const inputList = Array.from(popupElement.querySelectorAll(validationClass.inputSelector));
+  const buttonElement = popupElement.querySelector(validationClass.submitButtonSelector);
+  inputList.forEach((inputElement) => {
+    hideInputError(popupElement, inputElement, validationClass);
+    toggleButtonState(inputList, buttonElement, validationClass);
+  });
+}
+
 buttonEditName.addEventListener('click', function() {
   openPopup(popupEditProfile);
+  clearValidation(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
 });
@@ -139,6 +143,7 @@ buttonCloseForm.addEventListener('click', function() {
 
 buttonAddCard.addEventListener('click', function() {
   popupAddCardForm.reset();
+  clearValidation(popupAddCard);
   openPopup(popupAddCard);
 });
 
