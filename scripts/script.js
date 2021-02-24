@@ -50,9 +50,10 @@ function render() {
 
 function getCard(item) {
   const cardItem = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardElement = cardItem.querySelector('.card__element');
 
-  cardItem.querySelector('.card__element').src = item.link;
-  cardItem.querySelector('.card__element').alt = item.name;
+  cardElement.src = item.link;
+  cardElement.alt = item.name;
   cardItem.querySelector('.card__title').textContent = item.name;
 
   const buttonLike = cardItem.querySelector('.card__like');
@@ -69,12 +70,13 @@ function getCard(item) {
 
   const popupView = popups.querySelector('.popup_view');
   const popupCloseView = popupView.querySelector('.popup__close-form');
+  const popupImage = popupView.querySelector('.popup__image');
 
-  cardItem.querySelector('.card__element').addEventListener('click', function() {
+  cardElement.addEventListener('click', function() {
     openPopup(popupView);
-    popupView.querySelector('.popup__image').src = item.link;
+    popupImage.src = item.link;
     popupView.querySelector('.popup__about').textContent = item.name;
-    popupView.querySelector('.popup__image').alt = item.name;
+    popupImage.alt = item.name;
   });
 
   popupCloseView.addEventListener('click', function() {
