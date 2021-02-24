@@ -109,7 +109,6 @@ function openPopup(popupElement) {
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEscape);
-  popupAddCardForm.reset();
 };
 
 function closePopupEscape(evt) {
@@ -139,6 +138,7 @@ buttonCloseForm.addEventListener('click', function() {
 });
 
 buttonAddCard.addEventListener('click', function() {
+  popupAddCardForm.reset();
   openPopup(popupAddCard);
 });
 
