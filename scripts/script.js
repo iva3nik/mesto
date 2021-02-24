@@ -8,6 +8,7 @@ const jobInput = formElement.querySelector('.popup__item-profile_input_job');
 const profileName = document.querySelector('.profile__name');
 const profileText = document.querySelector('.profile__text');
 const popupAddCard = popups.querySelector('.popup_add-card');
+const popupAddCardForm = popupAddCard.querySelector('.popup__edit-profile');
 const buttonAddCard = document.querySelector('.profile__button');
 const buttonCloseAddCard = popupAddCard.querySelector('.popup__close-form');
 const placeInput = popupAddCard.querySelector('.popup__item-profile_input_name');
@@ -89,8 +90,7 @@ function getCard(item) {
 function addNewCard() {
   const newCard = getCard({name: placeInput.value, link: linkPlace.value});
   cardsProfile.prepend(newCard);
-  placeInput.value = '';
-  linkPlace.value = '';
+  popupAddCardForm.reset();
 }
 
 render();
@@ -109,8 +109,7 @@ function openPopup(popupElement) {
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEscape);
-  placeInput.value = '';
-  linkPlace.value = '';
+  popupAddCardForm.reset();
 };
 
 function closePopupEscape(evt) {
