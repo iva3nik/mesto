@@ -17,6 +17,10 @@ const formElementCard = popupAddCard.querySelector('.popup__edit-profile');
 const cardsProfile = document.querySelector('.elements');
 const cardTemplate = document.querySelector('#card').content;
 
+const popupView = popups.querySelector('.popup_view');
+const popupCloseView = popupView.querySelector('.popup__close-form');
+const popupImage = popupView.querySelector('.popup__image');
+
 const initialCards = [
   {
     name: 'Карачаевск',
@@ -69,19 +73,11 @@ function getCard(item) {
     evt.target.closest('.card').remove();
   });
 
-  const popupView = popups.querySelector('.popup_view');
-  const popupCloseView = popupView.querySelector('.popup__close-form');
-  const popupImage = popupView.querySelector('.popup__image');
-
   cardElement.addEventListener('click', function() {
     openPopup(popupView);
     popupImage.src = item.link;
     popupView.querySelector('.popup__about').textContent = item.name;
     popupImage.alt = item.name;
-  });
-
-  popupCloseView.addEventListener('click', function() {
-    closePopup(popupView);
   });
 
   return cardItem;
@@ -149,6 +145,10 @@ buttonAddCard.addEventListener('click', function() {
 
 buttonCloseAddCard.addEventListener('click', function() {
   closePopup(popupAddCard);
+});
+
+popupCloseView.addEventListener('click', function() {
+  closePopup(popupView);
 });
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
