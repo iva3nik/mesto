@@ -128,9 +128,9 @@ function clearValidation (popupElement) {
 
 buttonEditName.addEventListener('click', function() {
   openPopup(popupEditProfile);
-  clearValidation(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
+  clearValidation(popupEditProfile);
 });
 
 buttonCloseForm.addEventListener('click', function() {
