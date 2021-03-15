@@ -67,7 +67,81 @@ function render(items) {
   items.forEach((item) => {
     cardsProfile.append(new Card(item, '#card').getCard());
   })
-}
+};
 
 render(initialCards);
 
+function addNewCard() {
+  const item = {name: placeInput.Value, link: linkPlace.value};
+  const newCard = new Card(item, '#card').getCard();
+  cardsProfile.prepend(newCard);
+}
+
+function openPopup(popupElement) {
+  popupElement.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEscape);
+};
+
+function closePopup(popupElement) {
+  popupElement.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEscape);
+};
+
+function closePopupEscape(evt) {
+  const popupOpen = document.querySelector('.popup_opened');
+  if (evt.key === 'Escape') {
+    closePopup(popupOpen);
+  }
+};
+
+const arrayPopups = Array.from(document.querySelectorAll('.popup'));
+arrayPopups.forEach((popup) => {
+  popup.addEventListener('click', function(evt) {
+    if (evt.target == evt.currentTarget) {
+      closePopup(popup);
+    };
+  });
+});
+
+buttonEditName.addEventListener('click', function() {
+  openPopup(popupEditProfile);
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileText.textContent;
+});
+
+buttonCloseForm.addEventListener('click', function() {
+  closePopup(popupEditProfile);
+});
+
+buttonAddCard.addEventListener('click', function() {
+  popupAddCardForm.reset();
+  openPopup(popupAddCard);
+});
+
+buttonCloseAddCard.addEventListener('click', function() {
+  closePopup(popupAddCard);
+});
+
+popupCloseView.addEventListener('click', function() {
+  closePopup(popupView);
+});
+
+// Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
+function handleFormSubmit(evt) {
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+
+  profileName.textContent = nameInput.value;
+  profileText.textContent = jobInput.value;
+
+  closePopup(popupEditProfile);
+};
+
+function handleCardFormSubmit(evt) {
+  evt.preventDefault();
+  addNewCard();
+  closePopup(popupAddCard);
+};
+
+// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
+formElement.addEventListener('submit', handleFormSubmit);
+formElementCard.addEventListener('submit', handleCardFormSubmit);
