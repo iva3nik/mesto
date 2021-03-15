@@ -26,7 +26,7 @@ export class Card {
 
   getCard() {
     this._cardElement.src = this._link;
-    this._cardElement.alt = this._link;
+    this._cardElement.alt = this._name;
     this._cardItem.querySelector('.card__title').textContent = this._name;
     this._setEventListeners();
 

@@ -72,7 +72,7 @@ function render(items) {
 render(initialCards);
 
 function addNewCard() {
-  const item = {name: placeInput.Value, link: linkPlace.value};
+  const item = {name: placeInput.value, link: linkPlace.value};
   const newCard = new Card(item, '#card').getCard();
   cardsProfile.prepend(newCard);
 }
