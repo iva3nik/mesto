@@ -1,3 +1,12 @@
+const popups = document.querySelector('.popups');
+const popupView = popups.querySelector('.popup_view');
+const popupImage = popupView.querySelector('.popup__image');
+const popupAbout = popupView.querySelector('.popup__about');
+
+function openPopup(popupElement) {
+  popupElement.classList.add('popup_opened');
+}
+
 export class Card {
   constructor(item, selector) {
     this._cardItem = document
@@ -22,6 +31,12 @@ export class Card {
   _setEventListeners() {
     this._buttonLike.addEventListener('click', () => this._like());
     this._buttonDelete.addEventListener('click', () => this._trash());
+    this._cardElement.addEventListener('click', function(evt) {
+      openPopup(popupView);
+      popupImage.src = evt.target.src;
+      popupImage.alt = evt.target.alt;
+      popupAbout.textContent = evt.target.alt;
+    });
   }
 
   getCard() {
