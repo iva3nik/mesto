@@ -1,5 +1,5 @@
-import {Card} from './Card.js';
-
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 const popups = document.querySelector('.popups');
 
@@ -11,7 +11,6 @@ const jobInput = formElement.querySelector('.popup__item-profile_input_job');
 
 const popupView = popups.querySelector('.popup_view');
 const popupCloseView = popupView.querySelector('.popup__close-form');
-const popupImage = popupView.querySelector('.popup__image');
 
 const popupAddCard = popups.querySelector('.popup_add-card');
 const popupAddCardForm = popupAddCard.querySelector('.popup__edit-profile');
@@ -25,7 +24,6 @@ const profileName = document.querySelector('.profile__name');
 const profileText = document.querySelector('.profile__text');
 const buttonAddCard = document.querySelector('.profile__button');
 const cardsProfile = document.querySelector('.elements');
-const cardTemplate = document.querySelector('#card').content;
 
 const validationClass = {
   formSelector: '.popup__edit-profile',
@@ -107,6 +105,7 @@ buttonEditName.addEventListener('click', function() {
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
+  formValidatorEditProfile.clearValidation();
 });
 
 buttonCloseForm.addEventListener('click', function() {
@@ -115,6 +114,7 @@ buttonCloseForm.addEventListener('click', function() {
 
 buttonAddCard.addEventListener('click', function() {
   popupAddCardForm.reset();
+  formValidatorAddCard.clearValidation();
   openPopup(popupAddCard);
 });
 
@@ -145,3 +145,8 @@ function handleCardFormSubmit(evt) {
 // Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', handleFormSubmit);
 formElementCard.addEventListener('submit', handleCardFormSubmit);
+
+const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
+const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
+formValidatorEditProfile.enableValidation();
+formValidatorAddCard.enableValidation();

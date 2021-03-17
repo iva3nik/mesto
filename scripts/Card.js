@@ -31,15 +31,15 @@ export class Card {
 
     this._link = item.link;
     this._name = item.name;
-  }
+  };
 
   _like() {
     this._buttonLike.classList.toggle('card__like_active');
-  }
+  };
 
   _trash() {
     this._cardItem.remove();
-  }
+  };
 
   _setEventListeners() {
     this._buttonLike.addEventListener('click', () => this._like());
@@ -50,7 +50,7 @@ export class Card {
       popupImage.alt = evt.target.alt;
       popupAbout.textContent = evt.target.alt;
     });
-  }
+  };
 
   getCard() {
     this._cardElement.src = this._link;
@@ -59,5 +59,5 @@ export class Card {
     this._setEventListeners();
 
     return this._cardItem;
-  }
-}
+  };
+};
