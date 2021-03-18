@@ -17,13 +17,13 @@ export class Card {
     this._buttonLike.classList.toggle('card__like_active');
   };
 
-  _trash() {
+  _handleDeleteCard() {
     this._cardItem.remove();
   };
 
   _setEventListeners() {
     this._buttonLike.addEventListener('click', () => this._like());
-    this._buttonDelete.addEventListener('click', () => this._trash());
+    this._buttonDelete.addEventListener('click', () => this._handleDeleteCard());
     this._cardElement.addEventListener('click', function(evt) {
       openPopup(popupView);
       popupImage.src = evt.target.src;
