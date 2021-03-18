@@ -1,7 +1,6 @@
+import { popups, popupView, openPopup, closePopup } from './utils.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-
-const popups = document.querySelector('.popups');
 
 const popupEditProfile = popups.querySelector('.popup_edit-profile');
 const buttonCloseForm = popupEditProfile.querySelector('.popup__close-form');
@@ -9,7 +8,6 @@ const formElement = popupEditProfile.querySelector('.popup__edit-profile');
 const nameInput = formElement.querySelector('.popup__item-profile_input_name');
 const jobInput = formElement.querySelector('.popup__item-profile_input_job');
 
-const popupView = popups.querySelector('.popup_view');
 const popupCloseView = popupView.querySelector('.popup__close-form');
 
 const popupAddCard = popups.querySelector('.popup_add-card');
@@ -74,23 +72,6 @@ function addNewCard() {
   const newCard = new Card(item, '#card').getCard();
   cardsProfile.prepend(newCard);
 }
-
-function openPopup(popupElement) {
-  popupElement.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEscape);
-};
-
-function closePopup(popupElement) {
-  popupElement.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEscape);
-};
-
-function closePopupEscape(evt) {
-  const popupOpen = document.querySelector('.popup_opened');
-  if (evt.key === 'Escape') {
-    closePopup(popupOpen);
-  }
-};
 
 const arrayPopups = Array.from(document.querySelectorAll('.popup'));
 arrayPopups.forEach((popup) => {
