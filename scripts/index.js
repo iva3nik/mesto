@@ -32,6 +32,9 @@ const validationClass = {
   errorClass: 'popup__input-error_active'
 };
 
+const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
+const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
+
 const initialCards = [
   {
     name: 'Карачаевск',
@@ -59,53 +62,19 @@ const initialCards = [
   }
 ];
 
+const arrayPopups = Array.from(document.querySelectorAll('.popup'));
+
 function render(items) {
   items.forEach((item) => {
     cardsProfile.append(new Card(item, '#card').getCard());
   })
 };
 
-render(initialCards);
-
 function addNewCard() {
   const item = {name: placeInput.value, link: linkPlace.value};
   const newCard = new Card(item, '#card').getCard();
   cardsProfile.prepend(newCard);
 }
-
-const arrayPopups = Array.from(document.querySelectorAll('.popup'));
-arrayPopups.forEach((popup) => {
-  popup.addEventListener('click', function(evt) {
-    if (evt.target == evt.currentTarget) {
-      closePopup(popup);
-    };
-  });
-});
-
-buttonEditName.addEventListener('click', function() {
-  openPopup(popupEditProfile);
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileText.textContent;
-  formValidatorEditProfile.clearValidation();
-});
-
-buttonCloseForm.addEventListener('click', function() {
-  closePopup(popupEditProfile);
-});
-
-buttonAddCard.addEventListener('click', function() {
-  popupAddCardForm.reset();
-  formValidatorAddCard.clearValidation();
-  openPopup(popupAddCard);
-});
-
-buttonCloseAddCard.addEventListener('click', function() {
-  closePopup(popupAddCard);
-});
-
-popupCloseView.addEventListener('click', function() {
-  closePopup(popupView);
-});
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
 function handleFormSubmit(evt) {
@@ -123,11 +92,32 @@ function handleCardFormSubmit(evt) {
   closePopup(popupAddCard);
 };
 
+buttonEditName.addEventListener('click', function() {
+  openPopup(popupEditProfile);
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileText.textContent;
+  formValidatorEditProfile.clearValidation();
+});
+
+buttonAddCard.addEventListener('click', function() {
+  popupAddCardForm.reset();
+  formValidatorAddCard.clearValidation();
+  openPopup(popupAddCard);
+});
+
+arrayPopups.forEach((popup) => {
+  popup.addEventListener('click', function(evt) {
+    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-form')) {
+      closePopup(popup);
+    };
+  });
+});
+
 // Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', handleFormSubmit);
 formElementCard.addEventListener('submit', handleCardFormSubmit);
 
-const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
-const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
 formValidatorEditProfile.enableValidation();
 formValidatorAddCard.enableValidation();
+
+render(initialCards);
