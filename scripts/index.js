@@ -1,18 +1,14 @@
-import { popups, popupView, openPopup, closePopup } from './utils.js';
+import { popups, openPopup, closePopup } from './utils.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 
 const popupEditProfile = popups.querySelector('.popup_edit-profile');
-const buttonCloseForm = popupEditProfile.querySelector('.popup__close-form');
 const formElement = popupEditProfile.querySelector('.popup__edit-profile');
 const nameInput = formElement.querySelector('.popup__item-profile_input_name');
 const jobInput = formElement.querySelector('.popup__item-profile_input_job');
 
-const popupCloseView = popupView.querySelector('.popup__close-form');
-
 const popupAddCard = popups.querySelector('.popup_add-card');
 const popupAddCardForm = popupAddCard.querySelector('.popup__edit-profile');
-const buttonCloseAddCard = popupAddCard.querySelector('.popup__close-form');
 const placeInput = popupAddCard.querySelector('.popup__item-profile_input_name');
 const linkPlace = popupAddCard.querySelector('.popup__item-profile_input_job');
 const formElementCard = popupAddCard.querySelector('.popup__edit-profile');
