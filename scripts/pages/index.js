@@ -6,10 +6,19 @@ import { popupEditProfile, formElement, nameInput, jobInput,
   buttonEditName, profileName, profileText, buttonAddCard, cardsProfile,
   validationClass, initialCards, arrayPopups }
   from '../utils/constants.js';
+import Section from '../components/Section.js';
 
+const defaultCardList = new Section ({
+  data: initialCards,
+  renderer: (item) => {
+      const cardElement = new Card(item, '#card').getCard();
+      defaultCardList.setItem(cardElement);
+  },
+},
+  '.elements');
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
-
+/*
 function render(items) {
   items.forEach((item) => {
     cardsProfile.append(new Card(item, '#card').getCard());
@@ -20,7 +29,7 @@ function addNewCard() {
   const item = {name: placeInput.value, link: linkPlace.value};
   const newCard = new Card(item, '#card').getCard();
   cardsProfile.prepend(newCard);
-}
+}*/
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
 function handleFormSubmit(evt) {
@@ -34,7 +43,7 @@ function handleFormSubmit(evt) {
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
-  addNewCard();
+  defaultCardList.addItem();
   closePopup(popupAddCard);
 };
 
@@ -65,5 +74,6 @@ formElementCard.addEventListener('submit', handleCardFormSubmit);
 
 formValidatorEditProfile.enableValidation();
 formValidatorAddCard.enableValidation();
-
-render(initialCards);
+/*
+render(initialCards);*/
+defaultCardList.renderItem();
