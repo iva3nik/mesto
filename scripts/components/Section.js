@@ -1,6 +1,3 @@
-import { Card } from './Card.js';
-import { placeInput, linkPlace } from '../utils/constants.js';
-
 export default class Section {
   constructor({ data, renderer }, containerSelector) {
     this._items = data;
@@ -17,11 +14,4 @@ export default class Section {
   setItem(element) {
     this._container.append(element);
   }
-
-  addItem() {
-    const item = {name: placeInput.value, link: linkPlace.value};
-    const newCard = new Card(item, '#card').getCard();
-    this._container.prepend(newCard);
-  }
-
 }

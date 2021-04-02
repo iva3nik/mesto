@@ -1,29 +1,64 @@
-import { openPopup, closePopup } from '../utils/utils.js';
-import { Card } from '../components/Card.js';
-import { FormValidator } from '../components/FormValidator.js';
 import { popupEditProfile, formElement, nameInput, jobInput,
   popupAddCard, popupAddCardForm, placeInput, linkPlace, formElementCard,
   buttonEditName, profileName, profileText, buttonAddCard, cardsProfile,
   validationClass, initialCards, arrayPopups }
   from '../utils/constants.js';
+
+import { Card } from '../components/Card.js';
+import { FormValidator } from '../components/FormValidator.js';
 import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+
+
+const popupWithImage = new PopupWithImage('.popup_view');
+popupWithImage.setEventListeners();
 
 const defaultCardList = new Section ({
   data: initialCards,
   renderer: (item) => {
-      const cardElement = new Card(item, '#card').getCard();
-      defaultCardList.setItem(cardElement);
+    const cardElement = new Card(item, '#card', () => {
+      popupWithImage.open(item);
+    }).getCard();
+    defaultCardList.setItem(cardElement);
   },
 },
   '.elements');
+
+const userInfo = new UserInfo({
+  nameSelector: '.profile__name',
+  aboutSelector: '.profile__text'
+});
+
+const popupWithProfile = new PopupWithForm(
+  '.popup_edit-profile',
+  (formValues) => {
+    console.log(formValues)
+    userInfo.setUserInfo(formValues);
+  }
+);
+
+popupWithProfile.setEventListeners();
+
+buttonEditName.addEventListener('click', () => {
+  popupWithProfile.open();
+  const dataUser = userInfo.getUserInfo();
+  nameInput.value = dataUser.name;
+  jobInput.value = dataUser.about;/*
+  formValidatorEditProfile.clearValidation();*/
+});
+
+/*
+const popupWithCard = new PopupWithForm('.popup_add-card', (dataUser) => {
+  const newCard = new Card ({ name: dataUser.place, link: dataUser.link }, '#card').getCard();
+  defaultCardList(newCard);
+})
+popupWithCard.setEventListeners();*/
+
+/*
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
-/*
-function render(items) {
-  items.forEach((item) => {
-    cardsProfile.append(new Card(item, '#card').getCard());
-  })
-};
 
 function addNewCard() {
   const item = {name: placeInput.value, link: linkPlace.value};
@@ -31,49 +66,14 @@ function addNewCard() {
   cardsProfile.prepend(newCard);
 }*/
 
-// Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function handleFormSubmit(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-
-  profileName.textContent = nameInput.value;
-  profileText.textContent = jobInput.value;
-
-  closePopup(popupEditProfile);
-};
-
-function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-  defaultCardList.addItem();
-  closePopup(popupAddCard);
-};
-
-buttonEditName.addEventListener('click', function() {
-  openPopup(popupEditProfile);
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileText.textContent;
-  formValidatorEditProfile.clearValidation();
-});
-
+/*
 buttonAddCard.addEventListener('click', function() {
   popupAddCardForm.reset();
   formValidatorAddCard.clearValidation();
-  openPopup(popupAddCard);
+  popupWithCard.open();
 });
-
-arrayPopups.forEach((popup) => {
-  popup.addEventListener('click', function(evt) {
-    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-form')) {
-      closePopup(popup);
-    };
-  });
-});
-
-// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', handleFormSubmit);
-formElementCard.addEventListener('submit', handleCardFormSubmit);
 
 formValidatorEditProfile.enableValidation();
-formValidatorAddCard.enableValidation();
-/*
-render(initialCards);*/
+formValidatorAddCard.enableValidation();*/
+
 defaultCardList.renderItem();
