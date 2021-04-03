@@ -1,11 +1,9 @@
-import { popupEditProfile, formElement, nameInput, jobInput,
-  popupAddCard, popupAddCardForm, placeInput, linkPlace, formElementCard,
-  buttonEditName, profileName, profileText, buttonAddCard, cardsProfile,
-  validationClass, initialCards, arrayPopups }
-  from '../utils/constants.js';
+import { popupEditProfile, nameInput, jobInput, popupAddCard,
+  popupAddCardForm, buttonEditName, buttonAddCard, validationClass,
+  initialCards } from '../utils/constants.js';
 
-import { Card } from '../components/Card.js';
-import { FormValidator } from '../components/FormValidator.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -18,10 +16,7 @@ popupWithImage.setEventListeners();
 const defaultCardList = new Section ({
   data: initialCards,
   renderer: (item) => {
-    const cardElement = new Card(item, '#card', () => {
-      popupWithImage.open(item);
-    }).getCard();
-    defaultCardList.setItem(cardElement);
+    defaultCardList.setItem(createCard(item));
   },
 },
   '.elements');
@@ -34,46 +29,42 @@ const userInfo = new UserInfo({
 const popupWithProfile = new PopupWithForm(
   '.popup_edit-profile',
   (formValues) => {
-    console.log(formValues)
     userInfo.setUserInfo(formValues);
   }
 );
 
+const popupWIthAddCard = new PopupWithForm('.popup_add-card', (formValues) => {
+  defaultCardList.addItem(createCard(formValues));
+});
+
+const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
+const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
+
+function createCard(formValues) {
+  const card = new Card (formValues, '#card', () => {
+    popupWithImage.open(formValues);
+  }).getCard();
+  return card;
+};
+
 popupWithProfile.setEventListeners();
+popupWIthAddCard.setEventListeners();
 
 buttonEditName.addEventListener('click', () => {
   popupWithProfile.open();
   const dataUser = userInfo.getUserInfo();
   nameInput.value = dataUser.name;
-  jobInput.value = dataUser.about;/*
-  formValidatorEditProfile.clearValidation();*/
+  jobInput.value = dataUser.about;
+  formValidatorEditProfile.clearValidation();
 });
 
-/*
-const popupWithCard = new PopupWithForm('.popup_add-card', (dataUser) => {
-  const newCard = new Card ({ name: dataUser.place, link: dataUser.link }, '#card').getCard();
-  defaultCardList(newCard);
-})
-popupWithCard.setEventListeners();*/
-
-/*
-const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
-const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
-
-function addNewCard() {
-  const item = {name: placeInput.value, link: linkPlace.value};
-  const newCard = new Card(item, '#card').getCard();
-  cardsProfile.prepend(newCard);
-}*/
-
-/*
 buttonAddCard.addEventListener('click', function() {
   popupAddCardForm.reset();
   formValidatorAddCard.clearValidation();
-  popupWithCard.open();
+  popupWIthAddCard.open();
 });
 
 formValidatorEditProfile.enableValidation();
-formValidatorAddCard.enableValidation();*/
+formValidatorAddCard.enableValidation();
 
 defaultCardList.renderItem();
