@@ -1,24 +1,22 @@
 export const popups = document.querySelector('.popups');
-export const popupView = popups.querySelector('.popup_view');
-export const popupImage = popupView.querySelector('.popup__image');
-export const popupAbout = popupView.querySelector('.popup__about');
+export const popupViewSelector = '.popup_view';
 
-export const popupEditProfile = popups.querySelector('.popup_edit-profile');
+export const popupEditProfileSelector = '.popup_edit-profile';
+export const popupEditProfile = popups.querySelector(popupEditProfileSelector);
 export const formElement = popupEditProfile.querySelector('.popup__edit-profile');
 export const nameInput = formElement.querySelector('.popup__item-profile_input_name');
 export const jobInput = formElement.querySelector('.popup__item-profile_input_job');
 
-export const popupAddCard = popups.querySelector('.popup_add-card');
+export const popupAddCardSelector = '.popup_add-card';
+export const popupAddCard = popups.querySelector(popupAddCardSelector);
 export const popupAddCardForm = popupAddCard.querySelector('.popup__edit-profile');
-export const placeInput = popupAddCard.querySelector('.popup__item-profile_input_name');
-export const linkPlace = popupAddCard.querySelector('.popup__item-profile_input_job');
-export const formElementCard = popupAddCard.querySelector('.popup__edit-profile');
 
 export const buttonEditName = document.querySelector('.profile__button-edit-name');
-export const profileName = document.querySelector('.profile__name');
-export const profileText = document.querySelector('.profile__text');
+export const profileName = '.profile__name';
+export const profileText = '.profile__text';
 export const buttonAddCard = document.querySelector('.profile__button');
-export const cardsProfile = document.querySelector('.elements');
+export const cardsProfile = '.elements';
+export const templateCardSelector = '#card';
 
 export const validationClass = {
   formSelector: '.popup__edit-profile',
@@ -56,5 +54,4 @@ export const initialCards = [
   }
 ];
 
-export const arrayPopups = Array.from(document.querySelectorAll('.popup'));
 

@@ -1,7 +1,9 @@
 import './index.css';
 import { popupEditProfile, nameInput, jobInput, popupAddCard,
   popupAddCardForm, buttonEditName, buttonAddCard, validationClass,
-  initialCards } from '../scripts/utils/constants.js';
+  initialCards, popupViewSelector, popupEditProfileSelector, popupAddCardSelector,
+  profileName, profileText, cardsProfile, templateCardSelector }
+  from '../scripts/utils/constants.js';
 
 import Card from '../scripts/components/Card.js';
 import FormValidator from '../scripts/components/FormValidator.js';
@@ -11,44 +13,46 @@ import PopupWithForm from '../scripts/components/PopupWithForm.js';
 import UserInfo from '../scripts/components/UserInfo.js';
 
 
-const popupWithImage = new PopupWithImage('.popup_view');
+const popupWithImage = new PopupWithImage(popupViewSelector);
 
 const defaultCardList = new Section ({
   data: initialCards,
   renderer: (item) => {
-    defaultCardList.setItem(createCard(item));
+    defaultCardList.appendItem(createCard(item));
   },
 },
-  '.elements');
+cardsProfile);
 
 const userInfo = new UserInfo({
-  nameSelector: '.profile__name',
-  aboutSelector: '.profile__text'
+  nameSelector: profileName,
+  aboutSelector: profileText
 });
 
 const popupWithProfile = new PopupWithForm(
-  '.popup_edit-profile',
+  popupEditProfileSelector,
   (formValues) => {
     userInfo.setUserInfo(formValues);
   }
 );
 
-const popupWIthAddCard = new PopupWithForm('.popup_add-card', (formValues) => {
-  defaultCardList.addItem(createCard(formValues));
+const popupWithAddCard = new PopupWithForm(
+  popupAddCardSelector,
+  (formValues) => {
+    defaultCardList.prependItem(createCard(formValues));
 });
 
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
 
 function createCard(formValues) {
-  const card = new Card (formValues, '#card', () => {
+  const card = new Card (formValues, templateCardSelector, () => {
     popupWithImage.open(formValues);
   }).getCard();
   return card;
 };
 
 popupWithProfile.setEventListeners();
-popupWIthAddCard.setEventListeners();
+popupWithAddCard.setEventListeners();
 popupWithImage.setEventListeners();
 
 buttonEditName.addEventListener('click', () => {
@@ -62,7 +66,7 @@ buttonEditName.addEventListener('click', () => {
 buttonAddCard.addEventListener('click', () => {
   popupAddCardForm.reset();
   formValidatorAddCard.clearValidation();
-  popupWIthAddCard.open();
+  popupWithAddCard.open();
 });
 
 formValidatorEditProfile.enableValidation();
