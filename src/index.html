@@ -126,6 +126,17 @@
         </div>
       </div>
 
+      <div class="popup popup_confirm">
+        <div class="popup__container popup__container_form">
+          <h2 class="popup__title">Вы уверены?</h2>
+          <form class="popup__edit-profile" name="form-about-profile" novalidate>
+            <button class="popup__save popup__save_type_confirm" type="submit">Да</button>
+          </form>
+          <button class="popup__close-form" type="button" aria-label="close-form">
+          </button>
+        </div>
+      </div>
+
       <div class="popup popup_view">
           <div class="popup__container">
             <figure class="popup__window">
@@ -149,8 +160,11 @@
         </button>
         <div class="card__info">
           <h2 class="card__title"></h2>
-          <button class="card__like" type="button" aria-label="like-heart">
-          </button>
+          <div class="card__column-like">
+            <button class="card__like" type="button" aria-label="like-heart">
+            </button>
+            <div class="card__count">0</div>
+          </div>
         </div>
       </div>
     </template>
