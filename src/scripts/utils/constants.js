@@ -14,6 +14,7 @@ export const popupAddCardForm = popupAddCard.querySelector('.popup__edit-profile
 export const buttonEditName = document.querySelector('.profile__button-edit-name');
 export const profileName = '.profile__name';
 export const profileText = '.profile__text';
+export const profileAvatar = '.profile__avatar';
 export const buttonAddCard = document.querySelector('.profile__button');
 export const cardsProfile = '.elements';
 export const templateCardSelector = '#card';
@@ -54,4 +55,10 @@ export const initialCards = [
   }
 ];
 
-
+export const apiData = {
+  url: 'https://mesto.nomoreparties.co/v1/cohort-22/users/me',
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: '62eee554-aa82-42a2-9129-40e083fc85ea'
+  }
+}

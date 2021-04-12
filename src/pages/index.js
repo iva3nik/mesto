@@ -2,7 +2,7 @@ import './index.css';
 import { popupEditProfile, nameInput, jobInput, popupAddCard,
   popupAddCardForm, buttonEditName, buttonAddCard, validationClass,
   initialCards, popupViewSelector, popupEditProfileSelector, popupAddCardSelector,
-  profileName, profileText, cardsProfile, templateCardSelector }
+  profileName, profileText, profileAvatar, cardsProfile, templateCardSelector,apiData }
   from '../scripts/utils/constants.js';
 
 import Card from '../scripts/components/Card.js';
@@ -25,7 +25,8 @@ cardsProfile);
 
 const userInfo = new UserInfo({
   nameSelector: profileName,
-  aboutSelector: profileText
+  aboutSelector: profileText,
+  avatarSelector: profileAvatar
 });
 
 const popupWithProfile = new PopupWithForm(
@@ -73,3 +74,30 @@ formValidatorEditProfile.enableValidation();
 formValidatorAddCard.enableValidation();
 
 defaultCardList.renderItem();
+
+fetch('https://mesto.nomoreparties.co/v1/cohort-22/users/me', {
+  headers: {
+    authorization: '62eee554-aa82-42a2-9129-40e083fc85ea'
+  }
+})
+  .then(res => res.json())
+  .then((result) => {
+    console.log(result);
+    userInfo.setUserInfo(result)
+  })
+  .catch((err) => {
+    console.log('Something is wrong')
+  });
+
+fetch('https://mesto.nomoreparties.co/v1/cohort-22/cards', {
+  headers: {
+    authorization: '62eee554-aa82-42a2-9129-40e083fc85ea'
+  }
+})
+  .then(res => res.json())
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log('Something is wrong')
+  });
