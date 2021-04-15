@@ -1,8 +1,9 @@
 import './index.css';
 import { popupEditProfile, nameInput, jobInput, popupAddCard,
   popupAddCardForm, buttonEditName, buttonAddCard, validationClass,
-  initialCards, popupViewSelector, popupEditProfileSelector, popupAddCardSelector,
-  profileName, profileText, profileAvatar, cardsProfile, templateCardSelector,apiData }
+  popupViewSelector, popupEditProfileSelector, popupAddCardSelector,
+  popupConfirmSelector, profileName, profileText, profileAvatar, cardsProfile,
+  templateCardSelector, apiData }
   from '../scripts/utils/constants.js';
 
 import Card from '../scripts/components/Card.js';
@@ -11,17 +12,14 @@ import Section from '../scripts/components/Section.js';
 import PopupWithImage from '../scripts/components/PopupWithImage.js';
 import PopupWithForm from '../scripts/components/PopupWithForm.js';
 import UserInfo from '../scripts/components/UserInfo.js';
+import Api from '../scripts/components/Api.js';
+import PopupConfirm from '../scripts/components/PopupConfirm.js';
 
+const api = new Api(apiData);
 
 const popupWithImage = new PopupWithImage(popupViewSelector);
 
-const defaultCardList = new Section ({
-  data: initialCards,
-  renderer: (item) => {
-    defaultCardList.appendItem(createCard(item));
-  },
-},
-cardsProfile);
+const defaultCardList = new Section (cardsProfile);
 
 const userInfo = new UserInfo({
   nameSelector: profileName,
@@ -32,7 +30,11 @@ const userInfo = new UserInfo({
 const popupWithProfile = new PopupWithForm(
   popupEditProfileSelector,
   (formValues) => {
-    userInfo.setUserInfo(formValues);
+    api.patchDataUser(formValues)
+      .then(result => console.log(result))
+      .then(() => {
+        userInfo.setUserInfo(formValues);
+      })
   }
 );
 
@@ -40,7 +42,19 @@ const popupWithAddCard = new PopupWithForm(
   popupAddCardSelector,
   (formValues) => {
     defaultCardList.prependItem(createCard(formValues));
+    api.postCardData(formValues)
+      .then(result => console.log(result))
+      .catch((err) => {
+        console.log('Something is wrong');
+      });
 });
+
+const popupConfirm = new PopupConfirm(
+  popupConfirmSelector,
+  () => {
+    console.log('Something');
+  }
+);
 
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
@@ -55,6 +69,7 @@ function createCard(formValues) {
 popupWithProfile.setEventListeners();
 popupWithAddCard.setEventListeners();
 popupWithImage.setEventListeners();
+popupConfirm.setEventListeners();
 
 buttonEditName.addEventListener('click', () => {
   const dataUser = userInfo.getUserInfo();
@@ -73,31 +88,26 @@ buttonAddCard.addEventListener('click', () => {
 formValidatorEditProfile.enableValidation();
 formValidatorAddCard.enableValidation();
 
-defaultCardList.renderItem();
-
-fetch('https://mesto.nomoreparties.co/v1/cohort-22/users/me', {
-  headers: {
-    authorization: '62eee554-aa82-42a2-9129-40e083fc85ea'
-  }
-})
-  .then(res => res.json())
+api.getDataUser()
   .then((result) => {
     console.log(result);
-    userInfo.setUserInfo(result)
+    userInfo.setUserInfo(result);
   })
   .catch((err) => {
-    console.log('Something is wrong')
+    console.log('Somethung is wrong')
   });
 
-fetch('https://mesto.nomoreparties.co/v1/cohort-22/cards', {
-  headers: {
-    authorization: '62eee554-aa82-42a2-9129-40e083fc85ea'
-  }
-})
-  .then(res => res.json())
+api.getInitialCards()
   .then((result) => {
     console.log(result);
+    result.forEach(item => {
+      defaultCardList.appendItem(createCard(item));
+    })
   })
   .catch((err) => {
-    console.log('Something is wrong')
+    console.log('Somethung is wrong')
   });
+
+
+
+

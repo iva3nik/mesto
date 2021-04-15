@@ -19,6 +19,8 @@ export const buttonAddCard = document.querySelector('.profile__button');
 export const cardsProfile = '.elements';
 export const templateCardSelector = '#card';
 
+export const popupConfirmSelector = '.popup_confirm';
+
 export const validationClass = {
   formSelector: '.popup__edit-profile',
   inputSelector: '.popup__item-profile',
@@ -28,37 +30,10 @@ export const validationClass = {
   errorClass: 'popup__input-error_active'
 };
 
-export const initialCards = [
-  {
-    name: 'Карачаевск',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 export const apiData = {
-  url: 'https://mesto.nomoreparties.co/v1/cohort-22/users/me',
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-22',
   headers: {
-    'Content-Type': 'application/json',
-    authorization: '62eee554-aa82-42a2-9129-40e083fc85ea'
+    authorization: '62eee554-aa82-42a2-9129-40e083fc85ea',
+    'Content-Type': 'application/json'
   }
 }

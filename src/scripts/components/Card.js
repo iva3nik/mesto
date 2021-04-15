@@ -1,8 +1,11 @@
 export default class Card {
   constructor(item, selector, handleClickCard) {
     this._selector = selector;
-    this._link = item.link;
+    this._likes = item.likes;
+    this._id = item._id;
     this._name = item.name;
+    this._link = item.link;
+    this._owner = item.owner;
     this._handleClickCard = handleClickCard;
   };
 
@@ -36,6 +39,10 @@ export default class Card {
     this._cardElement.src = this._link;
     this._cardElement.alt = this._name;
     this._cardItem.querySelector('.card__title').textContent = this._name;
+    this._cardItem.id = this._id;
+    if (!this._owner) {
+      this._buttonDelete.classList.add('card__trash_active');
+    }
     this._setEventListeners();
 
     return this._cardItem;
