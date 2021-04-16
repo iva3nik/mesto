@@ -8,22 +8,8 @@ export default class PopupConfirm extends Popup {
     this._handleSubmit = this._handleSubmitForm.bind(this);
   }
 
-  open(data, evt) {
-    super.open();
-    this._data = data;
-    this._el = evt.target
-  }
-
   _handleSubmitForm(evt) {
     evt.preventDefault();
-    /*
-    this._submitForm(this._data, this._el)*/
-  }
-
-  setEventListeners() {
-    super.setEventListeners;
-    /*
-    this._form.addEventListener('click', this._handleSubmitForm);*/
     super.close();
   }
 }

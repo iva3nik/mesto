@@ -16,9 +16,7 @@ import Api from '../scripts/components/Api.js';
 import PopupConfirm from '../scripts/components/PopupConfirm.js';
 
 const api = new Api(apiData);
-
 const popupWithImage = new PopupWithImage(popupViewSelector);
-
 const defaultCardList = new Section (cardsProfile);
 
 const userInfo = new UserInfo({
@@ -35,24 +33,27 @@ const popupWithProfile = new PopupWithForm(
       .then(() => {
         userInfo.setUserInfo(formValues);
       })
+      .catch((err) => {
+        console.log('Something is wrong');
+      });
   }
 );
 
 const popupWithAddCard = new PopupWithForm(
   popupAddCardSelector,
   (formValues) => {
-    defaultCardList.prependItem(createCard(formValues));
-    api.postCardData(formValues)
-      .then(result => console.log(result))
+    console.log(formValues)
+    api.addNewCard(formValues)
+      .then((result) => defaultCardList.prependItem(createCard(result)))
       .catch((err) => {
-        console.log('Something is wrong');
+        console.log(err);
       });
 });
 
 const popupConfirm = new PopupConfirm(
   popupConfirmSelector,
   () => {
-    console.log('Something');
+
   }
 );
 
@@ -60,9 +61,14 @@ const formValidatorEditProfile = new FormValidator(validationClass, popupEditPro
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
 
 function createCard(formValues) {
-  const card = new Card (formValues, templateCardSelector, () => {
+  const card = new Card (
+    formValues, templateCardSelector, () => {
     popupWithImage.open(formValues);
-  }).getCard();
+    },
+    () => {
+      popupConfirm.open();
+    }
+  ).getCard();
   return card;
 };
 
@@ -87,14 +93,14 @@ buttonAddCard.addEventListener('click', () => {
 
 formValidatorEditProfile.enableValidation();
 formValidatorAddCard.enableValidation();
-
+/*
 api.getDataUser()
   .then((result) => {
     console.log(result);
     userInfo.setUserInfo(result);
   })
   .catch((err) => {
-    console.log('Somethung is wrong')
+    console.log('Something is wrong')
   });
 
 api.getInitialCards()
@@ -105,8 +111,19 @@ api.getInitialCards()
     })
   })
   .catch((err) => {
-    console.log('Somethung is wrong')
-  });
+    console.log('Something is wrong')
+  });*/
+  Promise.all([api.getDataUser(), api.getInitialCards()])
+    .then(([dataUser, initialData]) => {
+      console.log(dataUser)
+      userInfo.setUserInfo(dataUser)
+      initialData.forEach(item => {
+        defaultCardList.appendItem(createCard({...item, userId: dataUser._id}));
+      })
+    })
+    .catch((err) => {
+      console.log('Something is wrong')
+    });
 
 
 
