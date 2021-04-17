@@ -3,7 +3,9 @@ import { popupEditProfile, nameInput, jobInput, popupAddCard,
   popupAddCardForm, buttonEditName, buttonAddCard, validationClass,
   popupViewSelector, popupEditProfileSelector, popupAddCardSelector,
   popupConfirmSelector, profileName, profileText, profileAvatar, cardsProfile,
-  templateCardSelector, apiData, popupUpdateAvatarSelector, buttonEditAvatar }
+  templateCardSelector, apiData, popupUpdateAvatarSelector, buttonEditAvatar,
+  popupEditAvatar, popupSaveNewCard, popupSaveEditProfile, popupSaveConfirm,
+  popupSaveEditAvatar }
   from '../scripts/utils/constants.js';
 
 import Card from '../scripts/components/Card.js';
@@ -28,8 +30,10 @@ const userInfo = new UserInfo({
 const popupWithProfile = new PopupWithForm(
   popupEditProfileSelector,
   (formValues) => {
+    renderLoading(false, popupSaveEditProfile, 'Сохранить');
     api.patchDataUser(formValues)
       .then((result) => {
+        renderLoading(true, popupSaveEditProfile, 'Сохранить...');
         userInfo.setUserInfo(result);
       })
       .catch(err => console.log(err));
@@ -39,8 +43,10 @@ const popupWithProfile = new PopupWithForm(
 const popupUpdateAvatar = new PopupWithForm(
   popupUpdateAvatarSelector,
   (formValues) => {
+    renderLoading(false, popupSaveEditAvatar, 'Сохранить');
     api.renewAvatar(formValues.link)
       .then(res => {
+        renderLoading(true, popupSaveEditAvatar, 'Сохранить...');
         userInfo.setAvatar(formValues.link);
       })
       .catch(err => console.log(err));
@@ -59,12 +65,14 @@ function createCard(formValues) {
 
     (cardEl) => {
       popupConfirm.setSubmitAction(_ => {
-          api.removeCard(cardEl._id)
-            .then((res) => {
-              cardEl.removeCard();
-              popupConfirm.close();
-            })
-            .catch(err => console.log(err))
+        renderLoading(false, popupSaveConfirm, 'Да');
+        api.removeCard(cardEl._id)
+          .then((res) => {
+            renderLoading(true, popupSaveConfirm, 'Да...')
+            cardEl.removeCard();
+            popupConfirm.close();
+          })
+          .catch(err => console.log(err));
       })
       popupConfirm.open(cardEl);
     }
@@ -75,20 +83,30 @@ function createCard(formValues) {
 
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
+const formValidatorEditAvatar = new FormValidator(validationClass, popupEditAvatar);
 
 const popupWithAddCard = new PopupWithForm(
   popupAddCardSelector,
   (formValues) => {
+    renderLoading(false, popupSaveNewCard, 'Создать')
     api.addNewCard(formValues)
       .then((result) => {
+        renderLoading(true, popupSaveNewCard, 'Создать...');
         result.userId = result.owner._id;
         defaultCardList.prependItem(createCard(result));
-        console.log(result)
       })
       .catch((err) => {
         console.log(err);
       });
 });
+
+function renderLoading(isLoading, button, textButton) {
+  if(isLoading) {
+    button.textContent = textButton + '...';
+  } else {
+    button.textContent = textButton;
+  }
+};
 
 popupConfirm.setEventListeners();
 popupWithProfile.setEventListeners();
@@ -96,6 +114,10 @@ popupWithAddCard.setEventListeners();
 popupWithImage.setEventListeners();
 popupUpdateAvatar.setEventListeners();
 
+buttonEditAvatar.addEventListener('click', () => {
+  formValidatorEditAvatar.clearValidation();
+  popupUpdateAvatar.open();
+});
 
 buttonEditName.addEventListener('click', () => {
   const dataUser = userInfo.getUserInfo();
@@ -113,6 +135,7 @@ buttonAddCard.addEventListener('click', () => {
 
 formValidatorEditProfile.enableValidation();
 formValidatorAddCard.enableValidation();
+formValidatorEditAvatar.enableValidation();
 
 Promise.all([api.getDataUser(), api.getInitialCards()])
   .then(([dataUser, initialData]) => {
@@ -127,9 +150,7 @@ Promise.all([api.getDataUser(), api.getInitialCards()])
     console.log(err => console.log(err));
   });
 
-  buttonEditAvatar.addEventListener('click', () => {
-    popupUpdateAvatar.open();
-  })
+
 
 
 

@@ -3,6 +3,7 @@ export const popupViewSelector = '.popup_view';
 
 export const popupEditProfileSelector = '.popup_edit-profile';
 export const popupEditProfile = popups.querySelector(popupEditProfileSelector);
+export const popupSaveEditProfile = popupEditProfile.querySelector('.popup__save');
 export const formElement = popupEditProfile.querySelector('.popup__edit-profile');
 export const nameInput = formElement.querySelector('.popup__item-profile_input_name');
 export const jobInput = formElement.querySelector('.popup__item-profile_input_job');
@@ -10,6 +11,7 @@ export const jobInput = formElement.querySelector('.popup__item-profile_input_jo
 export const popupAddCardSelector = '.popup_add-card';
 export const popupAddCard = popups.querySelector(popupAddCardSelector);
 export const popupAddCardForm = popupAddCard.querySelector('.popup__edit-profile');
+export const popupSaveNewCard = popupAddCard.querySelector('.popup__save');
 
 export const buttonEditAvatar = document.querySelector('.profile__avatar-edit');
 export const buttonEditName = document.querySelector('.profile__button-edit-name');
@@ -21,7 +23,11 @@ export const cardsProfile = '.elements';
 export const templateCardSelector = '#card';
 
 export const popupConfirmSelector = '.popup_confirm';
+export const popupConfirm = popups.querySelector(popupConfirmSelector);
+export const popupSaveConfirm = popupConfirm.querySelector('.popup__save');
 export const popupUpdateAvatarSelector = '.popup_update-avatar';
+export const popupEditAvatar = popups.querySelector(popupUpdateAvatarSelector);
+export const popupSaveEditAvatar = popupEditAvatar.querySelector('.popup__save');
 
 export const validationClass = {
   formSelector: '.popup__edit-profile',
