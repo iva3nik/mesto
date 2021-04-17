@@ -8,8 +8,7 @@ export default class PopupConfirm extends Popup {
     this._handleSubmit = this._handleSubmitForm.bind(this);
   }
 
-  _handleSubmitForm(evt) {
-    evt.preventDefault();
+  _handleSubmitForm() {
     this._deleteCard(this._cardId, this._evt);
   }
 
@@ -17,5 +16,9 @@ export default class PopupConfirm extends Popup {
     this._cardId = cardId;
     this._evt = evt;
     super.open();
+  }
+
+  setEventListeners() {
+    super.setEventListeners();
   }
 }

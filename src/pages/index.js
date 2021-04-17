@@ -39,8 +39,11 @@ const popupWithProfile = new PopupWithForm(
 const popupConfirm = new PopupConfirm(
   popupConfirmSelector,
   (cardId, evt) => {
-    api.removeCard(cardId._id, evt)
-      .then(() => popupConfirm.close())
+    api.removeCard(cardId)
+      .then((result) => {
+        evt.target.closest("card").remove();
+        popupConfirm.close();
+      })
       .catch(err => console.log(err));
   }
 );
@@ -53,7 +56,6 @@ const popupWithAddCard = new PopupWithForm(
   (formValues) => {
     api.addNewCard(formValues)
       .then((result) => {
-        console.log(result)
         result.userId = result.owner._id;
         defaultCardList.prependItem(createCard(result));
         console.log(result)

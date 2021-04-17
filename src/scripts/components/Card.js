@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(item, selector, handleClickCard, handleDeleteCard) {
+  constructor(item, selector, handleClickCard, deleteCard) {
     this._selector = selector;
     this._likes = item.likes;
     this._userId = item.userId;
@@ -8,7 +8,7 @@ export default class Card {
     this._link = item.link;
     this._owner = item.owner;
     this._handleClickCard = handleClickCard;
-    this._handleDeleteCard= handleDeleteCard;
+    this._deleteCard = deleteCard;
   };
 
   _getTemplate() {
@@ -27,8 +27,8 @@ export default class Card {
     this._buttonLike.classList.toggle('card__like_active');
   };
 
-  deleteCard() {
-    this._cardItem.remove();
+  _handleDeleteCard(evt) {
+    this._deleteCard(this._id, evt);
   };
 
   _setEventListeners() {
