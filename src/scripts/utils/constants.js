@@ -11,6 +11,7 @@ export const popupAddCardSelector = '.popup_add-card';
 export const popupAddCard = popups.querySelector(popupAddCardSelector);
 export const popupAddCardForm = popupAddCard.querySelector('.popup__edit-profile');
 
+export const buttonEditAvatar = document.querySelector('.profile__avatar-edit');
 export const buttonEditName = document.querySelector('.profile__button-edit-name');
 export const profileName = '.profile__name';
 export const profileText = '.profile__text';
@@ -20,6 +21,7 @@ export const cardsProfile = '.elements';
 export const templateCardSelector = '#card';
 
 export const popupConfirmSelector = '.popup_confirm';
+export const popupUpdateAvatarSelector = '.popup_update-avatar';
 
 export const validationClass = {
   formSelector: '.popup__edit-profile',

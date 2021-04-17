@@ -7,10 +7,6 @@
   object-fit: cover;
 }
 
-.profile__avatar:hover {
-  opacity: .2;
-}
-
 @media screen and (max-width:950px) {
   .profile__avatar {
     margin-bottom: 23px;

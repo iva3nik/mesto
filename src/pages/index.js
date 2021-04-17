@@ -3,7 +3,7 @@ import { popupEditProfile, nameInput, jobInput, popupAddCard,
   popupAddCardForm, buttonEditName, buttonAddCard, validationClass,
   popupViewSelector, popupEditProfileSelector, popupAddCardSelector,
   popupConfirmSelector, profileName, profileText, profileAvatar, cardsProfile,
-  templateCardSelector, apiData }
+  templateCardSelector, apiData, popupUpdateAvatarSelector, buttonEditAvatar }
   from '../scripts/utils/constants.js';
 
 import Card from '../scripts/components/Card.js';
@@ -31,6 +31,17 @@ const popupWithProfile = new PopupWithForm(
     api.patchDataUser(formValues)
       .then((result) => {
         userInfo.setUserInfo(result);
+      })
+      .catch(err => console.log(err));
+  }
+);
+
+const popupUpdateAvatar = new PopupWithForm(
+  popupUpdateAvatarSelector,
+  (formValues) => {
+    api.renewAvatar(formValues.link)
+      .then(res => {
+        userInfo.setAvatar(formValues.link);
       })
       .catch(err => console.log(err));
   }
@@ -83,6 +94,8 @@ popupConfirm.setEventListeners();
 popupWithProfile.setEventListeners();
 popupWithAddCard.setEventListeners();
 popupWithImage.setEventListeners();
+popupUpdateAvatar.setEventListeners();
+
 
 buttonEditName.addEventListener('click', () => {
   const dataUser = userInfo.getUserInfo();
@@ -104,6 +117,7 @@ formValidatorAddCard.enableValidation();
 Promise.all([api.getDataUser(), api.getInitialCards()])
   .then(([dataUser, initialData]) => {
     userInfo.setUserInfo(dataUser)
+    userInfo.setAvatar(dataUser.avatar)
     initialData.forEach(item => {
       item.userId = dataUser._id;
       defaultCardList.appendItem(createCard(item));
@@ -113,6 +127,9 @@ Promise.all([api.getDataUser(), api.getInitialCards()])
     console.log(err => console.log(err));
   });
 
+  buttonEditAvatar.addEventListener('click', () => {
+    popupUpdateAvatar.open();
+  })
 
 
 
