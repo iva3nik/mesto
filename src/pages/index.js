@@ -36,7 +36,7 @@ const popupWithProfile = new PopupWithForm(
   }
 );
 
-const popupConfirm = new PopupConfirm(
+/* const popupConfirm = new PopupConfirm(
   popupConfirmSelector,
   (cardId, evt) => {
     api.removeCard(cardId)
@@ -46,7 +46,7 @@ const popupConfirm = new PopupConfirm(
       })
       .catch(err => console.log(err));
   }
-);
+); */
 
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
@@ -75,13 +75,12 @@ function createCard(formValues) {
     popupWithImage.open(formValues);
     },
 
-    (cardId) => {
-      popupConfirm.open();
-      api.removeCard(cardId)
-        .then(res => {
-          card.deleteCard()
+    (cardEl) => {
+      api.removeCard(cardEl._id)
+        .then((res) => {
+          cardEl.removeCard();
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
   )
   .getCard();
@@ -91,7 +90,7 @@ function createCard(formValues) {
 popupWithProfile.setEventListeners();
 popupWithAddCard.setEventListeners();
 popupWithImage.setEventListeners();
-popupConfirm.setEventListeners();
+
 
 buttonEditName.addEventListener('click', () => {
   const dataUser = userInfo.getUserInfo();
