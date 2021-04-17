@@ -29,46 +29,60 @@ const popupWithProfile = new PopupWithForm(
   popupEditProfileSelector,
   (formValues) => {
     api.patchDataUser(formValues)
-      .then(result => console.log(result))
-      .then(() => {
-        userInfo.setUserInfo(formValues);
+      .then((result) => {
+        userInfo.setUserInfo(result);
       })
-      .catch((err) => {
-        console.log('Something is wrong');
-      });
+      .catch(err => console.log(err));
   }
 );
 
-const popupWithAddCard = new PopupWithForm(
-  popupAddCardSelector,
-  (formValues) => {
-    console.log(formValues)
-    api.addNewCard(formValues)
-      .then((result) => defaultCardList.prependItem(createCard(result)))
-      .catch((err) => {
-        console.log(err);
-      });
-});
-
 const popupConfirm = new PopupConfirm(
   popupConfirmSelector,
-  () => {
-
+  (cardId, evt) => {
+    api.removeCard(cardId._id, evt)
+      .then(() => popupConfirm.close())
+      .catch(err => console.log(err));
   }
 );
 
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
 
+const popupWithAddCard = new PopupWithForm(
+  popupAddCardSelector,
+  (formValues) => {
+    api.addNewCard(formValues)
+      .then((result) => {
+        console.log(result)
+        result.userId = result.owner._id;
+        defaultCardList.prependItem(createCard(result));
+        console.log(result)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+});
+
 function createCard(formValues) {
   const card = new Card (
-    formValues, templateCardSelector, () => {
+    formValues,
+
+    templateCardSelector,
+
+    () => {
     popupWithImage.open(formValues);
     },
-    () => {
+
+    (cardId) => {
       popupConfirm.open();
+      api.removeCard(cardId)
+        .then(res => {
+          card.deleteCard()
+        })
+        .catch(err => console.log(err));
     }
-  ).getCard();
+  )
+  .getCard();
   return card;
 };
 
@@ -93,37 +107,18 @@ buttonAddCard.addEventListener('click', () => {
 
 formValidatorEditProfile.enableValidation();
 formValidatorAddCard.enableValidation();
-/*
-api.getDataUser()
-  .then((result) => {
-    console.log(result);
-    userInfo.setUserInfo(result);
-  })
-  .catch((err) => {
-    console.log('Something is wrong')
-  });
 
-api.getInitialCards()
-  .then((result) => {
-    console.log(result);
-    result.forEach(item => {
+Promise.all([api.getDataUser(), api.getInitialCards()])
+  .then(([dataUser, initialData]) => {
+    userInfo.setUserInfo(dataUser)
+    initialData.forEach(item => {
+      item.userId = dataUser._id;
       defaultCardList.appendItem(createCard(item));
     })
   })
   .catch((err) => {
-    console.log('Something is wrong')
-  });*/
-  Promise.all([api.getDataUser(), api.getInitialCards()])
-    .then(([dataUser, initialData]) => {
-      console.log(dataUser)
-      userInfo.setUserInfo(dataUser)
-      initialData.forEach(item => {
-        defaultCardList.appendItem(createCard({...item, userId: dataUser._id}));
-      })
-    })
-    .catch((err) => {
-      console.log('Something is wrong')
-    });
+    console.log(err => console.log(err));
+  });
 
 
 

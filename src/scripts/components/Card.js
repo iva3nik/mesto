@@ -2,8 +2,8 @@ export default class Card {
   constructor(item, selector, handleClickCard, handleDeleteCard) {
     this._selector = selector;
     this._likes = item.likes;
-    this._id = item._id;
     this._userId = item.userId;
+    this._id = item._id;
     this._name = item.name;
     this._link = item.link;
     this._owner = item.owner;
@@ -42,7 +42,7 @@ export default class Card {
     this._cardElement.src = this._link;
     this._cardElement.alt = this._name;
     this._cardItem.querySelector('.card__title').textContent = this._name;
-    this._cardItem.id = this._id;
+    this._cardItem._id = this._id;
     if (this._owner._id === this._userId) {
       this._buttonDelete.classList.add('card__trash_active');
     }

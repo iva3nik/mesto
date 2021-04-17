@@ -46,6 +46,14 @@ export default class Api {
         link: cardData.link
       })
     })
-    .then(this._checkStatusResponse);
+      .then(this._checkStatusResponse);
+  }
+
+  removeCard(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: this._headers
+    })
+      .then(this._checkStatusResponse);
   }
 }
