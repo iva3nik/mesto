@@ -36,17 +36,31 @@ const popupWithProfile = new PopupWithForm(
   }
 );
 
-/* const popupConfirm = new PopupConfirm(
-  popupConfirmSelector,
-  (cardId, evt) => {
-    api.removeCard(cardId)
-      .then((result) => {
-        evt.target.closest("card").remove();
-        popupConfirm.close();
+const popupConfirm = new PopupConfirm(popupConfirmSelector);
+
+function createCard(formValues) {
+  const card = new Card (
+    formValues,
+    templateCardSelector,
+    () => {
+    popupWithImage.open(formValues);
+    },
+
+    (cardEl) => {
+      popupConfirm.setSubmitAction(_ => {
+          api.removeCard(cardEl._id)
+            .then((res) => {
+              cardEl.removeCard();
+              popupConfirm.close();
+            })
+            .catch(err => console.log(err))
       })
-      .catch(err => console.log(err));
-  }
-); */
+      popupConfirm.open(cardEl);
+    }
+  )
+  .getCard();
+  return card;
+};
 
 const formValidatorEditProfile = new FormValidator(validationClass, popupEditProfile);
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
@@ -65,32 +79,10 @@ const popupWithAddCard = new PopupWithForm(
       });
 });
 
-function createCard(formValues) {
-  const card = new Card (
-    formValues,
-
-    templateCardSelector,
-
-    () => {
-    popupWithImage.open(formValues);
-    },
-
-    (cardEl) => {
-      api.removeCard(cardEl._id)
-        .then((res) => {
-          cardEl.removeCard();
-        })
-        .catch(err => console.log(err))
-    }
-  )
-  .getCard();
-  return card;
-};
-
+popupConfirm.setEventListeners();
 popupWithProfile.setEventListeners();
 popupWithAddCard.setEventListeners();
 popupWithImage.setEventListeners();
-
 
 buttonEditName.addEventListener('click', () => {
   const dataUser = userInfo.getUserInfo();

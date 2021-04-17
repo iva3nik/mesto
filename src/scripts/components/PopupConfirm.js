@@ -1,26 +1,25 @@
 import Popup from './Popup';
 
 export default class PopupConfirm extends Popup {
-  constructor(popupSelector, deleteCard) {
+  constructor(popupSelector) {
     super(popupSelector);
-    this._deleteCard = deleteCard;
-    this._form = this._popupElement.querySelector('.popup_confirm');
-    this._handleSubmitForm = this._handleSubmitForm.bind(this);
   }
 
-  _handleSubmitForm(event) {
-    event.preventDefault();
-    this._deleteCard(this._cardId, this._evt);
+  setSubmitAction(submitAction) {
+    this._handleSubmitCallback = submitAction;
   }
 
-  open(cardId, evt) {
-    this._cardId = cardId;
-    this._evt = evt;
-    super.open();
-  }
 
   setEventListeners() {
+    this._popupElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      this._handleSubmitCallback();
+    })
     super.setEventListeners();
-    this._form.addEventListener('click', this._handleSubmitForm);
+  }
+
+  open(cardEl) {
+    this._cardEl = cardEl;
+    super.open();
   }
 }
