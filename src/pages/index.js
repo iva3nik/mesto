@@ -30,11 +30,11 @@ const userInfo = new UserInfo({
 const popupWithProfile = new PopupWithForm(
   popupEditProfileSelector,
   (formValues) => {
-    renderLoading(false, popupSaveEditProfile, 'Сохранить');
+    renderLoading(false, popupSaveEditProfile, 'Сохранить', 'Сохранение...');
     api.patchDataUser(formValues)
       .then((result) => {
-        renderLoading(true, popupSaveEditProfile, 'Сохранить...');
         userInfo.setUserInfo(result);
+        renderLoading(true, popupSaveEditProfile, 'Сохранить', 'Сохранение...');
       })
       .catch(err => console.log(err));
   }
@@ -43,17 +43,33 @@ const popupWithProfile = new PopupWithForm(
 const popupUpdateAvatar = new PopupWithForm(
   popupUpdateAvatarSelector,
   (formValues) => {
-    renderLoading(false, popupSaveEditAvatar, 'Сохранить');
+    renderLoading(false, popupSaveEditAvatar, 'Сохранить', 'Сохранение...');
     api.renewAvatar(formValues.link)
       .then(res => {
-        renderLoading(true, popupSaveEditAvatar, 'Сохранить...');
         userInfo.setAvatar(formValues.link);
+        renderLoading(true, popupSaveEditAvatar, 'Сохранить', 'Сохранение...');
       })
       .catch(err => console.log(err));
   }
 );
 
 const popupConfirm = new PopupConfirm(popupConfirmSelector);
+
+const popupWithAddCard = new PopupWithForm(
+  popupAddCardSelector,
+  (formValues) => {
+    renderLoading(false, popupSaveNewCard, 'Создать', 'Создание...');
+    api.addNewCard(formValues)
+      .then((result) => {
+        result.userId = result.owner._id;
+        defaultCardList.prependItem(createCard(result));
+        console.log(result)
+        renderLoading(true, popupSaveNewCard, 'Создать', 'Создание...');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+});
 
 function createCard(formValues) {
   const card = new Card (
@@ -65,16 +81,34 @@ function createCard(formValues) {
 
     (cardEl) => {
       popupConfirm.setSubmitAction(_ => {
-        renderLoading(false, popupSaveConfirm, 'Да');
+        renderLoading(false, popupSaveConfirm, 'Да', 'Да...')
         api.removeCard(cardEl._id)
           .then((res) => {
-            renderLoading(true, popupSaveConfirm, 'Да...')
             cardEl.removeCard();
+            renderLoading(true, popupSaveConfirm, 'Да', 'Да...')
             popupConfirm.close();
           })
           .catch(err => console.log(err));
       })
       popupConfirm.open(cardEl);
+    },
+
+    (cardEl) => {
+      if(!cardEl._myLike) {
+        api.putLikeCard(cardEl._id)
+        .then(res => {
+          console.log(cardEl)
+          cardEl.likeCardCounter(res.likes.length);
+        })
+        .catch(err => console.log(err));
+      } else {
+        api.deleteLikeCard(cardEl._id)
+        .then(res => {
+          console.log(cardEl)
+          cardEl.likeCardCounter(res.likes.length);
+        })
+        .catch(err => console.log(err));
+      }
     }
   )
   .getCard();
@@ -85,26 +119,13 @@ const formValidatorEditProfile = new FormValidator(validationClass, popupEditPro
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
 const formValidatorEditAvatar = new FormValidator(validationClass, popupEditAvatar);
 
-const popupWithAddCard = new PopupWithForm(
-  popupAddCardSelector,
-  (formValues) => {
-    renderLoading(false, popupSaveNewCard, 'Создать')
-    api.addNewCard(formValues)
-      .then((result) => {
-        renderLoading(true, popupSaveNewCard, 'Создать...');
-        result.userId = result.owner._id;
-        defaultCardList.prependItem(createCard(result));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-});
 
-function renderLoading(isLoading, button, textButton) {
+
+function renderLoading(isLoading, button, startTextButton, loadingTextButton) {
   if(isLoading) {
-    button.textContent = textButton + '...';
+    button.textContent = startTextButton;
   } else {
-    button.textContent = textButton;
+    button.textContent = loadingTextButton;
   }
 };
 
@@ -139,6 +160,7 @@ formValidatorEditAvatar.enableValidation();
 
 Promise.all([api.getDataUser(), api.getInitialCards()])
   .then(([dataUser, initialData]) => {
+    console.log(initialData)
     userInfo.setUserInfo(dataUser)
     userInfo.setAvatar(dataUser.avatar)
     initialData.forEach(item => {

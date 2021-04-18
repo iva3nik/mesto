@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(item, selector, handleClickCard, deleteCard) {
+  constructor(item, selector, handleClickCard, deleteCard, like) {
     this._selector = selector;
     this._likes = item.likes;
     this._userId = item.userId;
@@ -10,6 +10,9 @@ export default class Card {
     this._handleClickCard = handleClickCard;
     this._handleDeleteCard = this._handleDeleteCard.bind(this);
     this._deleteCard = deleteCard;
+    this._like = like;
+    this._myLike = item.myLike;
+    this._handleLikeCard = this._handleLikeCard.bind(this);
   };
 
   _getTemplate() {
@@ -24,9 +27,15 @@ export default class Card {
     return this._cardTemplate;
   }
 
-  _like() {
+  likeCardCounter(likes) {
     this._buttonLike.classList.toggle('card__like_active');
+    this._countLike.textContent = likes;
+    this._myLike = !this._myLike;
   };
+
+  _handleLikeCard() {
+    this._like(this);
+  }
 
   _handleDeleteCard() {
     this._deleteCard(this);
@@ -37,7 +46,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._buttonLike.addEventListener('click', () => this._like());
+    this._buttonLike.addEventListener('click', () => this._handleLikeCard(this));
     this._buttonDelete.addEventListener('click', () => this._handleDeleteCard(this));
     this._cardElement.addEventListener('click', () => this._handleClickCard(this._link, this._name));
   };
@@ -48,9 +57,19 @@ export default class Card {
     this._cardElement.alt = this._name;
     this._cardItem.querySelector('.card__title').textContent = this._name;
     this._cardItem._id = this._id;
+    this._countLike.textContent = this._likes.length;
+
     if (this._owner._id === this._userId) {
       this._buttonDelete.classList.add('card__trash_active');
-    }
+    };
+
+    if (this._likes.find(el => el._id === this._userId)) {
+      this._buttonLike.classList.add('card__like_active');
+      this._myLike = true;
+    };
+
+    this._cardItem.myLike = this._myLike;
+
     this._setEventListeners();
 
     return this._cardItem;
