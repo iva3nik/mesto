@@ -63,7 +63,6 @@ const popupWithAddCard = new PopupWithForm(
       .then((result) => {
         result.userId = result.owner._id;
         defaultCardList.prependItem(createCard(result));
-        console.log(result)
         renderLoading(true, popupSaveNewCard, 'Создать', 'Создание...');
       })
       .catch((err) => {
@@ -97,14 +96,12 @@ function createCard(formValues) {
       if(!cardEl._myLike) {
         api.putLikeCard(cardEl._id)
         .then(res => {
-          console.log(cardEl)
           cardEl.likeCardCounter(res.likes.length);
         })
         .catch(err => console.log(err));
       } else {
         api.deleteLikeCard(cardEl._id)
         .then(res => {
-          console.log(cardEl)
           cardEl.likeCardCounter(res.likes.length);
         })
         .catch(err => console.log(err));
@@ -160,9 +157,8 @@ formValidatorEditAvatar.enableValidation();
 
 Promise.all([api.getDataUser(), api.getInitialCards()])
   .then(([dataUser, initialData]) => {
-    console.log(initialData)
-    userInfo.setUserInfo(dataUser)
-    userInfo.setAvatar(dataUser.avatar)
+    userInfo.setUserInfo(dataUser);
+    userInfo.setAvatar(dataUser.avatar);
     initialData.forEach(item => {
       item.userId = dataUser._id;
       defaultCardList.appendItem(createCard(item));
