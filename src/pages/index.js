@@ -116,8 +116,6 @@ const formValidatorEditProfile = new FormValidator(validationClass, popupEditPro
 const formValidatorAddCard = new FormValidator(validationClass, popupAddCard);
 const formValidatorEditAvatar = new FormValidator(validationClass, popupEditAvatar);
 
-
-
 function renderLoading(isLoading, button, startTextButton, loadingTextButton) {
   if(isLoading) {
     button.textContent = startTextButton;

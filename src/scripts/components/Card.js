@@ -56,7 +56,7 @@ export default class Card {
     this._cardElement.src = this._link;
     this._cardElement.alt = this._name;
     this._cardItem.querySelector('.card__title').textContent = this._name;
-    this._cardItem._id = this._id;
+    this._cardItem.id = this._id;
     this._countLike.textContent = this._likes.length;
 
     if (this._owner._id === this._userId) {
