@@ -34,6 +34,7 @@ const popupWithProfile = new PopupWithForm(
     api.patchDataUser(formValues)
       .then((result) => {
         userInfo.setUserInfo(result);
+        popupWithProfile.close();
       })
       .catch(err => console.log(err))
       .finally(() => {
@@ -49,6 +50,7 @@ const popupUpdateAvatar = new PopupWithForm(
     api.renewAvatar(formValues.link)
       .then(res => {
         userInfo.setAvatar(formValues.link);
+        popupUpdateAvatar.close();
       })
       .catch(err => console.log(err))
       .finally(() => {
@@ -67,6 +69,7 @@ const popupWithAddCard = new PopupWithForm(
       .then((result) => {
         result.userId = result.owner._id;
         defaultCardList.prependItem(createCard(result));
+        popupWithAddCard.close();
       })
       .catch((err) => {
         console.log(err);
