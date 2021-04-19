@@ -34,9 +34,11 @@ const popupWithProfile = new PopupWithForm(
     api.patchDataUser(formValues)
       .then((result) => {
         userInfo.setUserInfo(result);
-        renderLoading(true, popupSaveEditProfile, 'Сохранить', 'Сохранение...');
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => {
+        renderLoading(true, popupSaveEditProfile, 'Сохранить', 'Сохранение...');
+      });
   }
 );
 
@@ -47,9 +49,11 @@ const popupUpdateAvatar = new PopupWithForm(
     api.renewAvatar(formValues.link)
       .then(res => {
         userInfo.setAvatar(formValues.link);
-        renderLoading(true, popupSaveEditAvatar, 'Сохранить', 'Сохранение...');
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => {
+        renderLoading(true, popupSaveEditAvatar, 'Сохранить', 'Сохранение...');
+      });
   }
 );
 
@@ -63,10 +67,12 @@ const popupWithAddCard = new PopupWithForm(
       .then((result) => {
         result.userId = result.owner._id;
         defaultCardList.prependItem(createCard(result));
-        renderLoading(true, popupSaveNewCard, 'Создать', 'Создание...');
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        renderLoading(true, popupSaveNewCard, 'Создать', 'Создание...');
       });
 });
 
@@ -84,10 +90,12 @@ function createCard(formValues) {
         api.removeCard(cardEl._id)
           .then((res) => {
             cardEl.removeCard();
-            renderLoading(true, popupSaveConfirm, 'Да', 'Да...')
             popupConfirm.close();
           })
-          .catch(err => console.log(err));
+          .catch(err => console.log(err))
+          .finally(() => {
+            renderLoading(true, popupSaveConfirm, 'Да', 'Да...');
+          });
       })
       popupConfirm.open(cardEl);
     },
