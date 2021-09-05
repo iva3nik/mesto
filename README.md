@@ -1,5 +1,7 @@
 # Проект : Место
 
+Cтек: JavaScript / HTML / CSS / Git / Figma
+
 # Ссылка на проект
 https://iva3nik.github.io/mesto/.
 
